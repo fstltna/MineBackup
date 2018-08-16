@@ -8,7 +8,7 @@ my $TARCMD = "/bin/tar czf";
 #-------------------
 # No changes below here...
 #-------------------
-my $VERSION = "1.0";
+my $VERSION = "1.0-4x";
 
 print "MineBackup.pl version $VERSION\n";
 print "========================\n";
