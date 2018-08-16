@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # Set these for your situation
-my $MTDIR = "/root/minetest";
+my $MTDIR = "/root/minetest /usr/games /etc/minetest /usr/share/doc /usr/share/games/minetest";
 my $BACKUPDIR = "/root/backups";
 my $TARCMD = "/bin/tar czf";
 
