@@ -1,14 +1,14 @@
 #!/usr/bin/perl
 
 # Set these for your situation
-my $MTDIR = "/root/minetest";
-my $BACKUPDIR = "/root/backups";
+my $MTDIR = "/home/mtowner/minetest";
+my $BACKUPDIR = "/home/mtowner/backups";
 my $TARCMD = "/bin/tar czf";
 
 #-------------------
 # No changes below here...
 #-------------------
-my $VERSION = "1.0-4x";
+my $VERSION = "1.2";
 
 print "MineBackup.pl version $VERSION\n";
 print "========================\n";
