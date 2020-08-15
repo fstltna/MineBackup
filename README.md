@@ -13,4 +13,6 @@ Official support sites: [Official Github Repo](https://github.com/fstltna/MineBa
 
 3. This will back up your Minetest installation at 1:01am each day, and keep the last 5 backups.
 
+Also note that this will shut down the Minetest server process before the backup and let it restart after the backup is complete. This is to prevent the world data dump from being corrupted if the files change while they are being backed up. If you dont want this I suggest you don't automatically run the backup but rather run the backup process within "mmc" when you want to run one.
+
 If you need more help visit https://MineCity.online/
