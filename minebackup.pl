@@ -8,7 +8,7 @@ my $TARCMD = "/bin/tar czf";
 #-------------------
 # No changes below here...
 #-------------------
-my $VERSION = "1.2";
+my $VERSION = "1.3";
 
 print "MineBackup.pl version $VERSION\n";
 print "========================\n";
@@ -40,6 +40,24 @@ if (-f "$BACKUPDIR/minebackup-1.tgz")
 	rename("$BACKUPDIR/minebackup-1.tgz", "$BACKUPDIR/minebackup-2.tgz");
 }
 print "Done\nCreating New Backup: ";
+# set no respawn
+system("touch '$MTDIR/nostart'");
+if ($running ne "")
+{
+	# Process is running, kill it
+	system("killall minetestserver");
+}
+sleep(20);
+# Shut down server process
 system("$TARCMD $BACKUPDIR/minebackup-1.tgz $MTDIR");
 print("Done!\n");
+# Remove respawn flag
+if (-f "$MTDIR/nostart")
+{
+	print "Removing $MTDIR/nostart\n";
+	# Remove the lock file if it exists
+	unlink("$MTDIR/nostart");
+}
+print("Server should restart within 60 seconds!\n");
+sleep(5);
 exit 0;
