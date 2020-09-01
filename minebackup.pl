@@ -8,7 +8,7 @@ my $TARCMD = "/bin/tar czf";
 #-------------------
 # No changes below here...
 #-------------------
-my $VERSION = "1.3";
+my $VERSION = "1.4";
 
 print "MineBackup.pl version $VERSION\n";
 print "========================\n";
@@ -45,7 +45,8 @@ system("touch '$MTDIR/nostart'");
 if ($running ne "")
 {
 	# Process is running, kill it
-	system("killall minetestserver");
+	#system("killall minetestserver");
+	system("killall /home/mtowner/minetest/bin/startminetest");
 }
 sleep(20);
 # Shut down server process
