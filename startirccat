@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /home/mtowner/MineBackup/irccat/
+nohup ./irccat > irccat.log &
+exit 0

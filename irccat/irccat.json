@@ -29,7 +29,7 @@
     "identify_pass": "",
     "sasl_login": "",
     "sasl_pass": "",
-    "channels": ["##changeme"],
+    "channels": ["##EmeraldCityServer"],
     "keys": {"#channel": "join_key"}
   },
   "commands": {
