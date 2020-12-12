@@ -1,4 +1,4 @@
-# MineBackup backup script for Minetest (1.5)
+# MineBackup backup script for Minetest (1.5.1)
 Creates a backup of your Minetest folder
 
 Official support sites: [Official Github Repo](https://github.com/fstltna/MineBackup) - [Official Forum](https://minecity.online/index.php/forum/backup-script)  - [Official Download Area](https://minecity.online/index.php/downloads/category/5-server-tools)
@@ -34,7 +34,7 @@ Official support sites: [Official Github Repo](https://github.com/fstltna/MineBa
 7. For the last step we set the irccat process to start at boot.
 
         crontab -e
-        @reboot /home/mtowner/MineBack/irccat/irccat
+        @reboot nohup /home/mtowner/MineBack/irccat/irccat &
 
 8. Log out and back in, just to be sure everything is set up...
 
