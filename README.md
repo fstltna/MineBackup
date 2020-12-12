@@ -1,4 +1,4 @@
-# MineBackup backup script for Minetest (1.4)
+# MineBackup backup script for Minetest (1.5)
 Creates a backup of your Minetest folder
 
 Official support sites: [Official Github Repo](https://github.com/fstltna/MineBackup) - [Official Forum](https://minecity.online/index.php/forum/backup-script)  - [Official Download Area](https://minecity.online/index.php/downloads/category/5-server-tools)
@@ -9,9 +9,12 @@ Official support sites: [Official Github Repo](https://github.com/fstltna/MineBa
 1. Edit the settings at the top of minebackup.pl if needed
 2. create a cron job like this:
 
-        1 1 * * * /home/mtowner/MineBackup/minebackup.pl
+        1 1 * * SUN /home/mtowner/MineBackup/minebackup.pl warn
 
-3. This will back up your Minetest installation at 1:01am each day, and keep the last 5 backups.
+3. This will back up your Minetest installation at 1:01am each week, and keep the last 5 backups. It will warn the users 5 minutes (change the minebackup.pl script if you want a different delay).
+
+4. You should edit the minebackup.pl script to set your IRC info as well.
+
 
 Also note that this will shut down the Minetest server process before the backup and let it restart after the backup is complete. This is to prevent the world data dump from being corrupted if the files change while they are being backed up. If you dont want this I suggest you don't automatically run the backup but rather run the backup process within "mmc" when you want to run one.
 
