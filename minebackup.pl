@@ -18,8 +18,8 @@ my $DEBUG_MODE = "false";	# Set to "true" to enable debug output
 my $VERSION = "1.5";
 
 my $WarnMessage = "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\n";
-my $BackupStartMessage = "Backup is starting. Please do not try and log in till it is complete.";
-my $BackupDoneMessage = "The backup has finished and you may now log in again within 1 minute.";
+my $BackupStartMessage = "========== Backup is starting. Please do not try and log in till it is complete.";
+my $BackupDoneMessage = "========== The backup has finished and you may now log in within 1 minute.";
 
 sub debugPrint
 {
@@ -90,8 +90,6 @@ if ($DOING_DELAY eq "true")
 {
 	DoWarn();
 }
-
-exit 0;
 
 if (! -d $BACKUPDIR)
 {
