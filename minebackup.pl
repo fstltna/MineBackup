@@ -17,11 +17,20 @@ my $IRC_LOGINNAME = "Minetest Backup Script";
 my $DOING_DELAY = "false";
 my $SHOW_SERVER_OUTPUT = "true";
 my $BACKUP_CONFIG = "/home/mtowner/MineBackup/backups.rc";
+my $DEBUG_MODE = "false";	# Set to "true" to enable debug output
 
 #-------------------
 # No changes below here...
 #-------------------
 my $VERSION = "1.5";
+
+sub debugPrint
+{
+	if ($DEBUG_MODE eq "true")
+	{
+		print "$_[0]";
+	}
+}
 
 if (-f $BACKUP_CONFIG)
 {
@@ -38,34 +47,42 @@ if (-f $BACKUP_CONFIG)
 			(my $command, my $setting) = split(/=/, $row);
 			if ($command eq "BACKUP_DELAY")
 			{
+				debugPrint("Saw command $command\n");
 				$BACKUP_DELAY = $setting;
 			}
 			elsif ($command eq "IRC_CHAN")
 			{
+				debugPrint("Saw command $command\n");
 				$IRC_CHAN = $setting;
 			}
 			elsif ($command eq "IRC_SERVER")
 			{
+				debugPrint("Saw command $command\n");
 				$IRC_SERVER = $setting;
 			}
 			elsif ($command eq "IRC_NICK")
 			{
+				debugPrint("Saw command $command\n");
 				$IRC_NICK = $setting;
 			}
 			elsif ($command eq "IRC_PORT")
 			{
+				debugPrint("Saw command $command\n");
 				$IRC_PORT = $setting;
 			}
 			elsif ($command eq "IRC_LOGINNAME")
 			{
+				debugPrint("Saw command $command\n");
 				$IRC_LOGINNAME = $setting;
 			}
 			elsif ($command eq "SHOW_SERVER_OUTPUT")
 			{
+				debugPrint("Saw command $command\n");
 				$SHOW_SERVER_OUTPUT = $setting;
 			}
 			elsif ($command eq "BACKUP_CONFIG")
 			{
+				debugPrint("Saw command $command\n");
 				$BACKUP_CONFIG = $setting;
 			}
 			else
