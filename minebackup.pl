@@ -2,20 +2,14 @@
 
 use strict;
 use warnings;
-use Mojo::IRC;
+#use Mojo::IRC;
 
 # Set these for your situation
 my $MTDIR = "/home/mtowner/minetest";
 my $BACKUPDIR = "/home/mtowner/backups";
 my $TARCMD = "/bin/tar czf";
 my $BACKUP_DELAY = 5;
-my $IRC_CHAN = "##changeme";
-my $IRC_SERVER = "irc.freenode.net";
-my $IRC_NICK = "BackupScript";
-my $IRC_PORT = "6667";
-my $IRC_LOGINNAME = "Minetest Backup Script";
 my $DOING_DELAY = "false";
-my $SHOW_SERVER_OUTPUT = "true";
 my $BACKUP_CONFIG = "/home/mtowner/MineBackup/backups.rc";
 my $DEBUG_MODE = "false";	# Set to "true" to enable debug output
 
@@ -53,36 +47,6 @@ if (-f $BACKUP_CONFIG)
 				debugPrint("Saw command $command\n");
 				$BACKUP_DELAY = $setting;
 			}
-			elsif ($command eq "IRC_CHAN")
-			{
-				debugPrint("Saw command $command\n");
-				$IRC_CHAN = $setting;
-			}
-			elsif ($command eq "IRC_SERVER")
-			{
-				debugPrint("Saw command $command\n");
-				$IRC_SERVER = $setting;
-			}
-			elsif ($command eq "IRC_NICK")
-			{
-				debugPrint("Saw command $command\n");
-				$IRC_NICK = $setting;
-			}
-			elsif ($command eq "IRC_PORT")
-			{
-				debugPrint("Saw command $command\n");
-				$IRC_PORT = $setting;
-			}
-			elsif ($command eq "IRC_LOGINNAME")
-			{
-				debugPrint("Saw command $command\n");
-				$IRC_LOGINNAME = $setting;
-			}
-			elsif ($command eq "SHOW_SERVER_OUTPUT")
-			{
-				debugPrint("Saw command $command\n");
-				$SHOW_SERVER_OUTPUT = $setting;
-			}
 			elsif ($command eq "BACKUP_CONFIG")
 			{
 				debugPrint("Saw command $command\n");
@@ -101,69 +65,12 @@ if (-f $BACKUP_CONFIG)
 	}
 }
 
-sub testIRC
-{
-	my $MYHOST = "";
-	# Read in hostname
-	if (open(my $fh, '</etc/hostname'))
-	{
-		# Loop for each line in the file
-		while (my $row = <$fh>)
-		{
-			chomp $row;
-			$MYHOST = $row;
-		}
-		close($fh);
-	}
-	if (open(my $fh, '>/tmp/BackupWarn'))
-	{
-		print $fh "USER $IRC_NICK $MYHOST $MYHOST : $IRC_LOGINNAME\n";
-		print $fh "NICK $IRC_NICK\n";
-		print $fh "JOIN $IRC_CHAN\n";
-print "chan is $IRC_CHAN\n";
-
-		print $fh "PRIVMSG $IRC_CHAN :Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\n";
-
-		print $fh "QUIT\n";
-		close ($fh);
-	}
-	system("nc $IRC_SERVER $IRC_PORT </tmp/BackupWarn");
-}
-
-sub SendIRC
-{
-	print "In ZZZ\n";
-}
-
 sub DoWarn
 {
-        my $irc = Mojo::IRC->new(
-            nick => $IRC_NICK,
-            user => $IRC_LOGINNAME,
-            server => "$IRC_SERVER:$IRC_PORT",
-            name => 'Minecity Backup Script',
-          );
-
-        $irc->on(irc_join => sub {
-                my($self, $message) = @_;
-                warn "yay! i joined $message->{params}[0]";
-        });
-
-        $irc->on(irc_privmsg => sub {
-                my($self, $message) = @_;
-                say $message->{prefix}, " said: ", $message->{params}[1];
-        });
-
-        $irc->connect(sub {
-                my($irc, $err) = @_;
-                return warn $err if $err;
-                $irc->write(join => $IRC_CHAN);
-                $irc->write("Test Message", \&SendIRC);
-        });
-
-        Mojo::IOLoop->start;
 	# Send out our message
-print "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\r\n";
+	my $WarnMessage = "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\n";
+
+system("echo \"$WarnMessage\" | nc localhost 3461");
 
 	print "Doing a delay of $BACKUP_DELAY minutes\n";
 	sleep($BACKUP_DELAY * 60);
@@ -179,8 +86,7 @@ print "=========================\n";
 
 if ($DOING_DELAY eq "true")
 {
-	testIRC();
-#	DoWarn();
+	DoWarn();
 }
 
 exit 0;
