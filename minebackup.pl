@@ -115,6 +115,9 @@ sub DoWarn
 	# Read lines from the server until it tells us we have connected.
 	while (my $input = <$sock>)
 	{
+		my $SawIt = chop($sock);
+		debugPrint("$SawIt\n");
+
 		# Check the numerical responses from the server.
 		if ($input =~ /004/)
 		{
@@ -148,6 +151,7 @@ sub DoWarn
 			}
 		}
 		print $sock "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\r\n";
+		last;
 	}
 	sleep($BACKUP_DELAY * 60);
 }
