@@ -1,0 +1,40 @@
+{
+  "tcp": {
+    "listen": ":20204"
+  },
+  "http": {
+    "listen": ":8045",
+    "tls": false,
+    "tls_key": "",
+    "tls_cert": "",
+    "listeners": {
+      "generic": true,
+      "grafana": "#channel",
+      "github": {
+	"secret": "my_secret",
+	"default_channel": "#irccat-dev",
+	"repositories": {
+	    "irccat": "#irccat-dev"
+	}
+       }
+    }
+  },
+  "irc": {
+    "server": "irc.freenode.net:6697",
+    "tls": true,
+    "tls_skip_verify": false,
+    "nick": "BackupScript",
+    "realname": "IRCCat",
+    "server_pass": "",
+    "identify_pass": "",
+    "sasl_login": "",
+    "sasl_pass": "",
+    "channels": ["##changeme"],
+    "keys": {"#channel": "join_key"}
+  },
+  "commands": {
+    "auth_channel": "##changeme,
+    "handler": "./examples/command_handler.py",
+    "max_response_lines": 15
+  }
+}

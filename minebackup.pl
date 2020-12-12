@@ -103,18 +103,31 @@ if (-f $BACKUP_CONFIG)
 
 sub testIRC
 {
+	my $MYHOST = "";
+	# Read in hostname
+	if (open(my $fh, '</etc/hostname'))
+	{
+		# Loop for each line in the file
+		while (my $row = <$fh>)
+		{
+			chomp $row;
+			$MYHOST = $row;
+		}
+		close($fh);
+	}
 	if (open(my $fh, '>/tmp/BackupWarn'))
 	{
-		print $fh "USER $IRC_LOGINNAME\n";
+		print $fh "USER $IRC_NICK $MYHOST $MYHOST : $IRC_LOGINNAME\n";
 		print $fh "NICK $IRC_NICK\n";
 		print $fh "JOIN $IRC_CHAN\n";
+print "chan is $IRC_CHAN\n";
 
-		print $fh "PRIVMSG $IRC_CHAN Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\n";
+		print $fh "PRIVMSG $IRC_CHAN :Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\n";
 
 		print $fh "QUIT\n";
 		close ($fh);
 	}
-system("nc $IRC_SERVER $IRC_PORT </tmp/BackupWarn");
+	system("nc $IRC_SERVER $IRC_PORT </tmp/BackupWarn");
 }
 
 sub SendIRC
