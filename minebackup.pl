@@ -106,8 +106,8 @@ sub DoWarn
 	print "Doing a delay of $BACKUP_DELAY minutes\n";
 
         my $irc = Mojo::IRC->new(
-            nick => 'BackupScript',
-            user => 'Minetest Backup Script',
+            nick => $IRC_NICK,
+            user => $IRC_LOGINNAME,
             server => 'irc.freenode.net:6667',
             name => 'Minecity Backup Script',
           );
