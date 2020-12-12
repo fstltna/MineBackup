@@ -3,6 +3,9 @@
 #use strict;
 use IO::Socket;
 #use warnings;
+#use AnyEvent;
+#use AnyEvent::IRC::Client;
+use Mojo::IRC;
 
 # Set these for your situation
 my $MTDIR = "/home/mtowner/minetest";
@@ -30,6 +33,33 @@ sub debugPrint
 	{
 		print "$_[0]";
 	}
+}
+
+sub testIRC
+{
+my $irc = Mojo::IRC->new(
+            nick => 'BackupBot',
+            user => 'A Backup is about to be done',
+            server => 'irc.freenode.net:6667',
+          );
+ 
+$irc->on(irc_join => sub {
+  my($self, $message) = @_;
+  warn "yay! i joined $message->{params}[0]";
+});
+ 
+$irc->on(irc_privmsg => sub {
+  my($self, $message) = @_;
+  say $message->{prefix}, " said: ", $message->{params}[1];
+});
+ 
+$irc->connect(sub {
+  my($irc, $err) = @_;
+  return warn $err if $err;
+  $irc->write(join => '##changeme');
+});
+ 
+Mojo::IOLoop->start;
 }
 
 if (-f $BACKUP_CONFIG)
@@ -169,7 +199,8 @@ print "=========================\n";
 
 if ($DOING_DELAY eq "true")
 {
-	DoWarn();
+	testIRC();
+	#DoWarn();
 }
 
 exit 0;
