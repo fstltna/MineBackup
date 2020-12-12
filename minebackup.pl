@@ -1,10 +1,7 @@
 #!/usr/bin/perl
 
-#use strict;
-#use IO::Socket;
-#use warnings;
-#use AnyEvent;
-#use AnyEvent::IRC::Client;
+use strict;
+use warnings;
 use Mojo::IRC;
 
 # Set these for your situation
@@ -103,12 +100,10 @@ if (-f $BACKUP_CONFIG)
 
 sub DoWarn
 {
-	print "Doing a delay of $BACKUP_DELAY minutes\n";
-
         my $irc = Mojo::IRC->new(
             nick => $IRC_NICK,
             user => $IRC_LOGINNAME,
-            server => 'irc.freenode.net:6667',
+            server => "$IRC_SERVER:$IRC_PORT",
             name => 'Minecity Backup Script',
           );
 
@@ -131,7 +126,9 @@ sub DoWarn
 
         Mojo::IOLoop->start;
 
-		print $sock "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\r\n";
+	# Send out our message
+print "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\r\n";
+	print "Doing a delay of $BACKUP_DELAY minutes\n";
 	debugPrint"About to sleep\n";
 	sleep($BACKUP_DELAY * 60);
 }
