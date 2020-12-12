@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use strict;
+#use strict;
 use IO::Socket;
 #use warnings;
 
@@ -131,11 +131,13 @@ sub DoWarn
 	}
 
 	# Join the channel.
-	print $sock "JOIN $IRC_CHAN\r\n";
-
+	print($sock "JOIN $IRC_CHAN\r\n");
+	print ("joined channel: 'JOIN $IRC_CHAN'\n");
+print $sock "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\r\n";
 	# Keep reading lines from the server.
 	while (my $input = <$sock>)
 	{
+		debugPrint("SawLine\n");
 		chop $input;
 		if ($input =~ /^PING(.*)$/i)
 		{
@@ -153,6 +155,7 @@ sub DoWarn
 		print $sock "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\r\n";
 		last;
 	}
+	debugPrint"About to sleep\n";
 	sleep($BACKUP_DELAY * 60);
 }
 
