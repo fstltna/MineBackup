@@ -2,7 +2,6 @@
 
 use strict;
 use warnings;
-#use Mojo::IRC;
 
 # Set these for your situation
 my $MTDIR = "/home/mtowner/minetest";
@@ -17,6 +16,10 @@ my $DEBUG_MODE = "false";	# Set to "true" to enable debug output
 # No changes below here...
 #-------------------
 my $VERSION = "1.5";
+
+my $WarnMessage = "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\n";
+my $BackupStartMessage = "Backup is starting. Please do not try and log in till it is complete.";
+my $BackupDoneMessage = "The backup has finished and you may now log in again within 1 minute.";
 
 sub debugPrint
 {
@@ -68,12 +71,11 @@ if (-f $BACKUP_CONFIG)
 sub DoWarn
 {
 	# Send out our message
-	my $WarnMessage = "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\n";
-
-system("echo \"$WarnMessage\" | nc localhost 3461");
+	system("echo \"$WarnMessage\" | nc localhost 3461");
 
 	print "Doing a delay of $BACKUP_DELAY minutes\n";
 	sleep($BACKUP_DELAY * 60);
+	system("echo \"$BackupStartMessage\" | nc localhost 3461");
 }
 
 if ($ARGV[0] eq "warn")
@@ -141,5 +143,9 @@ if (-f "$MTDIR/nostart")
 	unlink("$MTDIR/nostart");
 }
 print("Server should restart within 60 seconds!\n");
+if ($DOING_DELAY eq "true")
+{
+	system("echo \"$BackupDoneMessage\" | nc localhost 3461");
+}
 sleep(5);
 exit 0;
