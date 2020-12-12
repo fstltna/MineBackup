@@ -30,8 +30,50 @@ if (-f $BACKUP_CONFIG)
 		while (my $row = <$fh>)
 		{
 			chomp $row;
-			print "$row\n";
+			my $CommentChar = substr($row, 0, 1);
+			if ($CommentChar eq "#")
+			{
+				next;
+			}
+			(my $command, my $setting) = split(/=/, $row);
+			if ($command eq "BACKUP_DELAY")
+			{
+				$BACKUP_DELAY = $setting;
+			}
+			elsif ($command eq "IRC_CHAN")
+			{
+				$IRC_CHAN = $setting;
+			}
+			elsif ($command eq "IRC_SERVER")
+			{
+				$IRC_SERVER = $setting;
+			}
+			elsif ($command eq "IRC_NICK")
+			{
+				$IRC_NICK = $setting;
+			}
+			elsif ($command eq "IRC_PORT")
+			{
+				$IRC_PORT = $setting;
+			}
+			elsif ($command eq "IRC_LOGINNAME")
+			{
+				$IRC_LOGINNAME = $setting;
+			}
+			elsif ($command eq "SHOW_SERVER_OUTPUT")
+			{
+				$SHOW_SERVER_OUTPUT = $setting;
+			}
+			elsif ($command eq "BACKUP_CONFIG")
+			{
+				$BACKUP_CONFIG = $setting;
+			}
+			else
+			{
+				die ("Unknown command: $command\n");
+			}
 		}
+		close($fh);
 	}
 	else
 	{
