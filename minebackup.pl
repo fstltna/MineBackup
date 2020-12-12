@@ -32,10 +32,13 @@ sub debugPrint
 	}
 }
 
+# Check if there is a file of settings
 if (-f $BACKUP_CONFIG)
 {
+	# Yes, so read it in
 	if (open(my $fh, '<:encoding(UTF-8)', $BACKUP_CONFIG))
 	{
+		# Loop for each line in the file
 		while (my $row = <$fh>)
 		{
 			chomp $row;
@@ -120,7 +123,7 @@ sub DoWarn
         $irc->connect(sub {
                 my($irc, $err) = @_;
                 return warn $err if $err;
-                $irc->write(join => '##changeme');
+                $irc->write(join => $IRC_CHAN);
                 $irc->write('Test Message');
         });
 
