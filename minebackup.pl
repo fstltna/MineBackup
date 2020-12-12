@@ -37,31 +37,31 @@ sub debugPrint
 
 sub testIRC
 {
-my $irc = Mojo::IRC->new(
+	my $irc = Mojo::IRC->new(
             nick => 'BackupScript',
             user => 'Minetest Backup Script',
             server => 'irc.freenode.net:6667',
             name => 'Minecity Backup Script',
           );
  
-$irc->on(irc_join => sub {
-  my($self, $message) = @_;
-  warn "yay! i joined $message->{params}[0]";
-});
+	$irc->on(irc_join => sub {
+		my($self, $message) = @_;
+		warn "yay! i joined $message->{params}[0]";
+	});
  
-$irc->on(irc_privmsg => sub {
-  my($self, $message) = @_;
-  say $message->{prefix}, " said: ", $message->{params}[1];
-});
+	$irc->on(irc_privmsg => sub {
+		my($self, $message) = @_;
+		say $message->{prefix}, " said: ", $message->{params}[1];
+	});
  
-$irc->connect(sub {
-  my($irc, $err) = @_;
-  return warn $err if $err;
-  $irc->write(join => '##changeme');
-$irc->write('Test Message');
-});
+	$irc->connect(sub {
+		my($irc, $err) = @_;
+		return warn $err if $err;
+		$irc->write(join => '##changeme');
+		$irc->write('Test Message');
+	});
  
-Mojo::IOLoop->start;
+	Mojo::IOLoop->start;
 }
 
 if (-f $BACKUP_CONFIG)
