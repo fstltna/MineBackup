@@ -5,12 +5,13 @@ my $MTDIR = "/home/mtowner/minetest";
 my $BACKUPDIR = "/home/mtowner/backups";
 my $TARCMD = "/bin/tar czf";
 my $BACKUP_DELAY = 5;
-my $IRC_CHAN = "#changeme";
+my $IRC_CHAN = "##changeme";
 my $IRC_SERVER = "irc.freenode.net";
 my $IRC_NICK = "BackupScript";
 my $IRC_PORT = "6667";
 my $IRC_LOGINNAME = "Minetest Backup Script";
 my $DOING_DELAY = "false";
+my $SHOW_SERVER_OUTPUT = "true";
 
 use strict;
 use IO::Socket;
@@ -63,8 +64,11 @@ sub DoWarn
 		}
 		else
 		{
-			# Print the raw line received by the bot.
-			print "$input\n";
+			if ($SHOW_SERVER_OUTPUT eq "true")
+			{
+				# Print the raw line received by the bot.
+				print "$input\n";
+			}
 		}
 		print $sock "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\r\n";
 	}
