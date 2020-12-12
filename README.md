@@ -34,7 +34,7 @@ Official support sites: [Official Github Repo](https://github.com/fstltna/MineBa
 7. For the last step we set the irccat process to start at boot.
 
         crontab -e
-        @reboot /home/mtowner/MineBack/startirccat
+        @reboot /home/mtowner/MineBackup/startirccat
 
 8. Log out and back in, just to be sure everything is set up...
 
