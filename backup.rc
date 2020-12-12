@@ -1,0 +1,9 @@
+# Set these for your situation
+BACKUP_DELAY = 5
+IRC_CHAN = ##changeme
+IRC_SERVER = irc.freenode.net
+IRC_NICK = BackupScript
+IRC_PORT = 6667
+IRC_LOGINNAME = Minetest Backup Script
+SHOW_SERVER_OUTPUT = true
+
