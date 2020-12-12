@@ -101,6 +101,27 @@ if (-f $BACKUP_CONFIG)
 	}
 }
 
+sub testIRC
+{
+	if (open(my $fh, '>/tmp/BackupWarn'))
+	{
+		print $fh "USER $IRC_LOGINNAME\n";
+		print $fh "NICK $IRC_NICK\n";
+		print $fh "JOIN $IRC_CHAN\n";
+
+		print $fh "PRIVMSG $IRC_CHAN Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\n";
+
+		print $fh "QUIT\n";
+		close ($fh);
+	}
+system("nc $IRC_SERVER $IRC_PORT </tmp/BackupWarn");
+}
+
+sub SendIRC
+{
+	print "In ZZZ\n";
+}
+
 sub DoWarn
 {
         my $irc = Mojo::IRC->new(
@@ -124,15 +145,14 @@ sub DoWarn
                 my($irc, $err) = @_;
                 return warn $err if $err;
                 $irc->write(join => $IRC_CHAN);
-                $irc->write('Test Message');
+                $irc->write("Test Message", \&SendIRC);
         });
 
         Mojo::IOLoop->start;
-
 	# Send out our message
 print "Warning - the minetest game is about to run a backup. You have $BACKUP_DELAY minutes to finish saving your changes.\r\n";
+
 	print "Doing a delay of $BACKUP_DELAY minutes\n";
-	debugPrint"About to sleep\n";
 	sleep($BACKUP_DELAY * 60);
 }
 
@@ -146,7 +166,8 @@ print "=========================\n";
 
 if ($DOING_DELAY eq "true")
 {
-	DoWarn();
+	testIRC();
+#	DoWarn();
 }
 
 exit 0;
