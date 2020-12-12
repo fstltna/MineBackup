@@ -1,5 +1,9 @@
 #!/usr/bin/perl
 
+use strict;
+use IO::Socket;
+#use warnings;
+
 # Set these for your situation
 my $MTDIR = "/home/mtowner/minetest";
 my $BACKUPDIR = "/home/mtowner/backups";
@@ -12,14 +16,28 @@ my $IRC_PORT = "6667";
 my $IRC_LOGINNAME = "Minetest Backup Script";
 my $DOING_DELAY = "false";
 my $SHOW_SERVER_OUTPUT = "true";
-
-use strict;
-use IO::Socket;
+my $BACKUP_CONFIG = "/home/mtowner/MineBackup/backups.rc";
 
 #-------------------
 # No changes below here...
 #-------------------
 my $VERSION = "1.5";
+
+if (-f $BACKUP_CONFIG)
+{
+	if (open(my $fh, '<:encoding(UTF-8)', $BACKUP_CONFIG))
+	{
+		while (my $row = <$fh>)
+		{
+			chomp $row;
+			print "$row\n";
+		}
+	}
+	else
+	{
+		warn "Could not open file '$BACKUP_CONFIG' $!";
+	}
+}
 
 sub DoWarn
 {
